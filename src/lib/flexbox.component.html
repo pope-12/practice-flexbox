@@ -1,0 +1,32 @@
+<div class="options">
+  <div class="option">
+    <div>
+      <label for="elementCount">Element count</label>
+      <input id="elementCount" type="number" min="1" max="50" [(ngModel)]="elementCount" (change)="setUpElements()">
+    </div>
+    <div>
+        <label for="containerHeight">Container Height (vh)</label>
+        <input id="containerHeight" type="number" min="1" max="500" [(ngModel)]="containerHeight" (change)="containerHeight = enforceMinMax(containerHeight, 1000, 0)">
+    </div>
+    <div>
+        <label for="elementDimension">Element Dimensions w&h (px)</label>
+        <input id="elementDimension" type="number" min="1" max="500" [(ngModel)]="elementDimension" (change)="elementDimension = enforceMinMax(elementDimension, 300, 0)">
+    </div>
+  </div>
+
+  <fieldset class="option" *ngFor="let option of objectKeys(options)">
+    <legend>{{ option }}</legend>
+
+    <div *ngFor="let property of options[option].properties">
+      <label for="justify-{{option}}-{{property}}">{{property}}</label>
+      <input type="radio" name="{{option}}" value="{{property}}" id="justify-{{option}}-{{property}}" [(ngModel)]="options[option].selected">
+    </div>
+  </fieldset>
+
+</div>
+
+<div class="flexbox-container" [ngStyle]="getContainerStyle()">
+  <div class="flexbox-item" *ngFor="let element of elements" [ngStyle]="{width: elementDimension + 'px', height: elementDimension + 'px'}">
+    {{ element + 1}}
+  </div>
+</div>
